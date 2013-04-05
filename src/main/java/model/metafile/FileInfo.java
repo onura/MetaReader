@@ -1,5 +1,7 @@
 package model.metafile;
 
+import java.io.IOException;
+
 import model.identifiers.IIdentifier;
 
 public class FileInfo {
@@ -17,6 +19,14 @@ public class FileInfo {
 		this.identifier = identifier;
 	}
 
+	public FileInfo(String filePath, FileType type) {
+		this(null, filePath, type, null);		
+	}
+	
+	public FileInfo(String filePath) {
+		this(null, filePath, null, null);
+	}
+	
 	public String getFileName() {
 		return fileName;
 	}
@@ -49,12 +59,17 @@ public class FileInfo {
 		this.identifier = identifier;
 	}
 	
-	public void guessType() {
-		;
+	public boolean guessType() throws IOException {
+		return true;
 	}
 	
-	public boolean checkType() {
-		return false;
+	public boolean checkType() throws IOException {
+		return true;
+	}
+	
+	public void findFileName() throws IOException {
+		//TODO: fill it so that it finds the fileName of the file
+		;
 	}
 	
 	

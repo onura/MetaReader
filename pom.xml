@@ -5,4 +5,11 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>MetaReader</name>
   <description>MetaReader for reading metadata of files.</description>
+  <dependencies>
+  	<dependency>
+  		<groupId>org.apache.pdfbox</groupId>
+  		<artifactId>pdfbox</artifactId>
+  		<version>1.8.0</version>
+  	</dependency>
+  </dependencies>
 </project>
