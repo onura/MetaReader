@@ -1,31 +1,33 @@
 package model.metafile;
 
 import java.io.IOException;
+import java.nio.file.Path;
 
 import model.identifiers.IIdentifier;
 
 public class FileInfo {
 	private String fileName;
-	private String filePath;
+	private Path filePath;
 	private FileType type;
 	private IIdentifier identifier;
 	
-	public FileInfo(String fileName, String filePath, FileType type,
+	public FileInfo(String fileName, Path filePath, FileType type,
 			IIdentifier identifier) {
 		super();
-		this.fileName = fileName;
-		this.filePath = filePath;
-		this.type = type;
-		this.identifier = identifier;
+		setFileName(fileName);
+		setFilePath(filePath);
+		setType(type);
+		setIdentifier(identifier);
 	}
 
-	public FileInfo(String filePath, FileType type) {
-		this(null, filePath, type, null);		
+	public FileInfo(Path filePath, FileType type) {
+		this(filePath.getName(filePath.getNameCount()-1).toString(), filePath, type, null);		
 	}
 	
-	public FileInfo(String filePath) {
-		this(null, filePath, null, null);
+	public FileInfo(Path filePath) {
+		this(filePath.getName(filePath.getNameCount()-1).toString(), filePath, null, null);
 	}
+	
 	
 	public String getFileName() {
 		return fileName;
@@ -35,11 +37,11 @@ public class FileInfo {
 		this.fileName = fileName;
 	}
 
-	public String getFilePath() {
+	public Path getFilePath() {
 		return filePath;
 	}
 
-	public void setFilePath(String filePath) {
+	public void setFilePath(Path filePath) {
 		this.filePath = filePath;
 	}
 
@@ -59,17 +61,45 @@ public class FileInfo {
 		this.identifier = identifier;
 	}
 	
+	
+	
 	public boolean guessType() throws IOException {
+		String extension = null;
+		int i = getFileName().lastIndexOf('.');
+		
+		if (i > 0) {
+		    extension = getFileName().substring(i+1);
+		}
+		
+		try{
+			setType( FileType.valueOf(extension) ); 
+		}catch(IllegalArgumentException e){
+			return false;
+		}
+						
 		return true;
 	}
 	
 	public boolean checkType() throws IOException {
-		return true;
+		
+		for( FileType t : FileType.values())
+			if(t.name().equals(this.type.toString()))
+				return true;		
+		return false;
 	}
 	
 	public void findFileName() throws IOException {
-		//TODO: fill it so that it finds the fileName of the file
-		;
+		
+		if( getFilePath().isAbsolute() == true ) {
+            setFileName(filePath.getName(filePath.getNameCount()-1).toString());
+        }
+	}
+	
+	@Override
+	public String toString() {
+		return "File Name : " + this.fileName + 
+				"\nFile Path : " + this.filePath + 
+				"\nFile Type : " + this.type;
 	}
 	
 	

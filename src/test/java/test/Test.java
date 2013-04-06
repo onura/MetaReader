@@ -1,17 +1,20 @@
 package test;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import model.MetaReader;
 import model.MetaReader.RETCODES;
 import model.metafile.FileType;
 
 public class Test {
 	public static void main(String[] args) {
-		final String filePath = "sample.pdf";
+		final Path filePath = Paths.get("sample.pdf");
 		
 		MetaReader reader = new MetaReader();
 		RETCODES retCode;
-		retCode = reader.analyseFile(filePath, FileType.PDF);
-		//retCode = reader.analyseFile(filePath);
+		//retCode = reader.analyseFile(filePath, FileType.pdf);
+		retCode = reader.analyseFile(filePath);
 		
 		if(retCode == RETCODES.SUCCESS) {			
 			System.out.println(reader.getMetaFile());

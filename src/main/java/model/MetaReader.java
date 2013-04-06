@@ -3,6 +3,7 @@ package model;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Path;
 
 import model.extractors.PDFExtractor;
 import model.metafile.FileInfo;
@@ -35,7 +36,7 @@ public class MetaReader {
 	}
 	
 	
-	public RETCODES analyseFile(String filePath, FileType fileType) {		
+	public RETCODES analyseFile(Path filePath, FileType fileType) {		
 		//TODO: add selectors for identifiers and extractors
 		
 		FileInfo fileInfo = new FileInfo(filePath, fileType);
@@ -47,7 +48,7 @@ public class MetaReader {
 			fileInfo.findFileName();
 
 			metaFile = new MetaFile(fileInfo, new PDFExtractor());
-			metaFile.extractData(new File(filePath));			
+			metaFile.extractData(new File(filePath.toString()));			
 			
 		} catch(FileNotFoundException e) {
 			return RETCODES.FILENOTFOUND; 
@@ -59,7 +60,7 @@ public class MetaReader {
 		
 	}
 	
-	public RETCODES analyseFile(String filePath) {
+	public RETCODES analyseFile(Path filePath) {
 		FileInfo fileInfo = new FileInfo(filePath);
 		
 		try {
@@ -70,7 +71,7 @@ public class MetaReader {
 			fileInfo.findFileName();
 
 			metaFile = new MetaFile(fileInfo, new PDFExtractor());
-			metaFile.extractData(new File(filePath));			
+			metaFile.extractData(new File(filePath.toString()));			
 			
 		} catch(FileNotFoundException e) {
 			return RETCODES.FILENOTFOUND; 
