@@ -13,8 +13,8 @@ public class Test {
 		
 		MetaReader reader = new MetaReader();
 		RETCODES retCode;
-		//retCode = reader.analyseFile(filePath, FileType.pdf);
-		retCode = reader.analyseFile(filePath);
+		retCode = reader.analyseFile(filePath, FileType.PDF);
+		//retCode = reader.analyseFile(filePath);
 		
 		if(retCode == RETCODES.SUCCESS) {			
 			System.out.println(reader.getMetaFile());

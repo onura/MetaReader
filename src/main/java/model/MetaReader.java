@@ -5,14 +5,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import model.extractors.PDFExtractor;
 import model.metafile.FileInfo;
 import model.metafile.FileType;
-import model.metafile.MetaData;
+import model.metafile.FileTypeLookupTable;
 import model.metafile.MetaFile;
 
 public class MetaReader {
 	private MetaFile metaFile;
+	private FileTypeLookupTable fileTypeLookupTable;
 	
 	public static enum RETCODES {
 		SUCCESS,
@@ -25,6 +25,7 @@ public class MetaReader {
 	public MetaReader() {
 		super();
 		this.metaFile = new MetaFile();
+		fileTypeLookupTable = new FileTypeLookupTable();
 	}
 
 	public MetaFile getMetaFile() {
@@ -37,8 +38,6 @@ public class MetaReader {
 	
 	
 	public RETCODES analyseFile(Path filePath, FileType fileType) {		
-		//TODO: add selectors for identifiers and extractors
-		
 		FileInfo fileInfo = new FileInfo(filePath, fileType);
 		
 		try {
@@ -47,7 +46,7 @@ public class MetaReader {
 				
 			fileInfo.findFileName();
 
-			metaFile = new MetaFile(fileInfo, new PDFExtractor());
+			metaFile = new MetaFile(fileInfo, fileTypeLookupTable.getFileDefiner(fileInfo.getType()).getExtractor());
 			metaFile.extractData(new File(filePath.toString()));			
 			
 		} catch(FileNotFoundException e) {
@@ -70,7 +69,7 @@ public class MetaReader {
 				
 			fileInfo.findFileName();
 
-			metaFile = new MetaFile(fileInfo, new PDFExtractor());
+			metaFile = new MetaFile(fileInfo, fileTypeLookupTable.getFileDefiner(fileInfo.getType()).getExtractor());
 			metaFile.extractData(new File(filePath.toString()));			
 			
 		} catch(FileNotFoundException e) {
