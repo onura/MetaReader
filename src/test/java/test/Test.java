@@ -9,7 +9,7 @@ import model.metafile.FileType;
 
 public class Test {
 	public static void main(String[] args) {
-		final Path filePath = Paths.get("sample.pdf");
+		final Path filePath = Paths.get("sampl.pdf");
 		
 		MetaReader reader = new MetaReader();
 		RETCODES retCode;

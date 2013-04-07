@@ -1,10 +1,10 @@
 package model.identifiers;
 
 import java.io.File;
+import java.io.IOException;
 
-import model.metafile.FileType;
 
 public interface IIdentifier {
 
-	public FileType identify(File file);
+	public boolean identify(File file) throws IOException;
 }

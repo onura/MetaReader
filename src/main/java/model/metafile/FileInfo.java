@@ -1,7 +1,9 @@
 package model.metafile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import model.identifiers.IIdentifier;
 
@@ -21,11 +23,12 @@ public class FileInfo {
 	}
 
 	public FileInfo(Path filePath, FileType type) {
-		this(filePath.getName(filePath.getNameCount()-1).toString(), filePath, type, null);		
+		this(null, filePath, type, 
+				new FileTypeLookupTable().getFileDefiner(type).getIdentifier());		
 	}
 	
 	public FileInfo(Path filePath) {
-		this(filePath.getName(filePath.getNameCount()-1).toString(), filePath, null, null);
+		this(null, filePath, null, null);
 	}
 	
 	
@@ -64,42 +67,37 @@ public class FileInfo {
 	
 	
 	public boolean guessType() throws IOException {
-		String extension = null;
-		int i = getFileName().lastIndexOf('.');
-		
-		if (i > 0) {
-		    extension = getFileName().substring(i+1);
+
+		for( FileType t : FileType.values()){
+			setType(t);
+			setIdentifier(new FileTypeLookupTable().getFileDefiner(t).getIdentifier());
+			if (getIdentifier().identify(new File(getFilePath().toString())))
+				return true;	
 		}
-		
-		try{
-			setType( FileType.valueOf(extension) ); 
-		}catch(IllegalArgumentException e){
-			return false;
-		}
-						
-		return true;
+		return false;
 	}
 	
 	public boolean checkType() throws IOException {
 		
-		for( FileType t : FileType.values())
-			if(t.name().equals(this.type.toString()))
-				return true;		
+		if(getIdentifier().identify(new File(getFilePath().toString())))
+			return true;		
 		return false;
 	}
 	
 	public void findFileName() throws IOException {
 		
-		if( getFilePath().isAbsolute() == true ) {
-            setFileName(filePath.getName(filePath.getNameCount()-1).toString());
-        }
+        setFileName(getFilePath().getName(getFilePath().getNameCount()-1).toString());        
+	}
+	
+	public String FindAbsolutePath(){
+		return Paths.get(new File(getFilePath().toString()).getAbsolutePath()).toString();
 	}
 	
 	@Override
 	public String toString() {
-		return "File Name : " + this.fileName + 
-				"\nFile Path : " + this.filePath + 
-				"\nFile Type : " + this.type;
+		return " Name : " + getFileName() + 
+				"\n Path : " + FindAbsolutePath() + 
+				"\n Type : " + getType();
 	}
 	
 	
