@@ -1,3 +1,7 @@
+/*
+ * Metadata fields of a file.
+ */
+
 package model.metafile;
 
 import java.util.Date;

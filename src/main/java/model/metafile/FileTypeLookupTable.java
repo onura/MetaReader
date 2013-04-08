@@ -1,3 +1,7 @@
+/*
+ * Keeps the FileDefiner object for the supported file types. 
+ */
+
 package model.metafile;
 
 import model.extractors.PDFExtractor;

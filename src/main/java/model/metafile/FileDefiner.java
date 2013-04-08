@@ -1,3 +1,6 @@
+/*
+ * Keeps a file's extractor and identifer objects.
+ */
 package model.metafile;
 
 import model.extractors.IExtractor;

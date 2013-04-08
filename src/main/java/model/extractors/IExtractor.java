@@ -1,3 +1,6 @@
+/*
+ * Common extractor interface for all file formats. 
+ */
 package model.extractors;
 
 import java.io.File;

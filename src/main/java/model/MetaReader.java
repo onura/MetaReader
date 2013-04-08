@@ -1,3 +1,8 @@
+/*
+ * Provides methods to read metadata of files
+ * or file streams. 
+ */
+
 package model;
 
 import java.io.File;

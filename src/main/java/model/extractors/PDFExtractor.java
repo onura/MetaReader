@@ -1,3 +1,7 @@
+/*
+ * Extracts metadata from PDF files.
+ */
+
 package model.extractors;
 
 import java.io.File;
@@ -27,7 +31,7 @@ public class PDFExtractor implements IExtractor{
 		return metaData;
 	}
 	
-	public HashMap<String, String> getExtra(PDDocumentInformation pdfInfo){
+	private HashMap<String, String> getExtra(PDDocumentInformation pdfInfo){
 		HashMap<String, String> extra = new HashMap<String, String>();
 		extra.put("Keywords", pdfInfo.getKeywords());
 		extra.put("Title", pdfInfo.getTitle());		

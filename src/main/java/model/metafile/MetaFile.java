@@ -1,3 +1,7 @@
+/*
+ * Keeps standard information and Metadata of a File.
+ */
+
 package model.metafile;
 
 import java.io.File;
@@ -46,10 +50,6 @@ public class MetaFile {
 	
 	public void extractData(File file) throws IOException{
 		metaData = extractor.extract(file);
-	}
-	
-	public void gatherFileInfo() {
-		;
 	}
 	
 	@Override
