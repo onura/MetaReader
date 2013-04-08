@@ -1,3 +1,7 @@
+/* 
+ * Checks and guesses type of files and also
+ * prepares properties of file.
+ * */
 package model.metafile;
 
 import java.io.File;
@@ -67,12 +71,14 @@ public class FileInfo {
 	
 	
 	public boolean guessType() throws IOException {
-
+		
+		FileTypeLookupTable fileTypeLookupTable = new FileTypeLookupTable();
 		for( FileType t : FileType.values()){
-			setType(t);
-			setIdentifier(new FileTypeLookupTable().getFileDefiner(t).getIdentifier());
-			if (getIdentifier().identify(new File(getFilePath().toString())))
+			setIdentifier(fileTypeLookupTable.getFileDefiner(t).getIdentifier());
+			if (getIdentifier().identify(new File(getFilePath().toString()))){
+				setType(t);
 				return true;	
+			}
 		}
 		return false;
 	}

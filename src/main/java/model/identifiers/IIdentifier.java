@@ -1,3 +1,6 @@
+/*
+ * Common identifier interface for all file formats. 
+ */
 package model.identifiers;
 
 import java.io.File;
