@@ -13,14 +13,20 @@ public class PDFIdentifier implements IIdentifier{
 	private static String pdfHeader = "%PDF-";
 
 	public boolean identify(File file) throws IOException {
-		
-		PDDocument pdf = PDDocument.load(file);
-		COSDocument pdfCOS = pdf.getDocument();
-		if(pdfCOS.getHeaderString().contains(pdfHeader)){
-			pdf.close();
-			return true;
-		}		
-		return false;		
+		PDDocument pdf = null;
+		try{		
+			pdf = PDDocument.load(file);
+			COSDocument pdfCOS = pdf.getDocument();
+			if(pdfCOS.getHeaderString().contains(pdfHeader)){
+				pdf.close();
+				return true;
+			}		
+			return false;
+		}catch (IOException e){
+			if (pdf != null)
+				pdf.close();
+			return false;
+		}
 	}
 
 }
