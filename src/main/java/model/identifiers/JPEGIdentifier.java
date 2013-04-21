@@ -6,7 +6,7 @@ import java.io.IOException;
 import org.apache.tika.Tika;
 
 public class JPEGIdentifier implements IIdentifier {
-	private static String jpegType = "image/jpeg";
+	private final String jpegType = "image/jpeg";
 	
 	public boolean identify(File file) throws IOException {
 		Tika tika = new Tika();

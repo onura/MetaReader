@@ -12,11 +12,12 @@ import model.identifiers.PDFIdentifier;
 public class FileTypeLookupTable {
 	private FileDefiner definers[];
 	
-	public FileTypeLookupTable() {
+	public FileTypeLookupTable() {		
 		definers = new FileDefiner[FileType.values().length];
 		
-		definers[FileType.PDF.ordinal()] = new FileDefiner(new PDFExtractor(), new PDFIdentifier());
+		definers[FileType.PDF.ordinal()] = new FileDefiner(new PDFExtractor(), new PDFIdentifier());		
 		definers[FileType.JPEG.ordinal()] = new FileDefiner(new JPEGExtractor(), new JPEGIdentifier());
+		
 	}
 	
 	public FileDefiner getFileDefiner(FileType type) {

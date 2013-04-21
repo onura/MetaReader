@@ -28,9 +28,9 @@ public class MetaReader {
 	}
 	
 	public MetaReader() {
-		super();
-		this.metaFile = new MetaFile();
-		fileTypeLookupTable = new FileTypeLookupTable();
+		super();		
+		this.metaFile = new MetaFile();				
+		this.fileTypeLookupTable = new FileTypeLookupTable();		
 	}
 
 	public MetaFile getMetaFile() {
@@ -65,13 +65,13 @@ public class MetaReader {
 	}
 	
 	public RETCODES analyseFile(Path filePath) {
-		FileInfo fileInfo = new FileInfo(filePath);
+		FileInfo fileInfo = new FileInfo(filePath);		
 		
-		try {
+		try {			
 			
 			if(!fileInfo.guessType())
 				return RETCODES.UNKNOWNTYPE;
-				
+			
 			fileInfo.findFileName();
 
 			metaFile = new MetaFile(fileInfo, fileTypeLookupTable.getFileDefiner(fileInfo.getType()).getExtractor());
@@ -85,6 +85,5 @@ public class MetaReader {
 		
 		return RETCODES.SUCCESS;
 	}
-
 	
 }

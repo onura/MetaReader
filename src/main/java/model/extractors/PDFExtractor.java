@@ -28,6 +28,7 @@ public class PDFExtractor implements IExtractor{
 		metaData.setOwner(pdfInfo.getAuthor());
 		metaData.setExtraData(this.getExtra(pdfInfo));
 		
+		pdf.close();		
 		return metaData;
 	}
 	

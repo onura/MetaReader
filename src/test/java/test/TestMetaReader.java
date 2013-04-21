@@ -9,7 +9,7 @@ import model.MetaReader;
 import model.MetaReader.RETCODES;
 import model.metafile.FileType;
 
-public class Test {
+public class TestMetaReader {
 
 	@org.junit.Test
 	public void test() {
@@ -30,5 +30,6 @@ public class Test {
 		
 		System.out.println(reader.getMetaFile());
 	}
+	
 
 }

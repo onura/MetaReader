@@ -60,7 +60,7 @@ public class FileInfo {
 		this.type = type;
 	}
 
-	public IIdentifier getIdentifier() {
+	public IIdentifier getIdentifier() {		
 		return identifier;
 	}
 
@@ -70,16 +70,16 @@ public class FileInfo {
 	
 	
 	
-	public boolean guessType() throws IOException {
-		
+	public boolean guessType() throws IOException {				
 		FileTypeLookupTable fileTypeLookupTable = new FileTypeLookupTable();
-		for( FileType t : FileType.values()){
-			setIdentifier(fileTypeLookupTable.getFileDefiner(t).getIdentifier());
+		for( FileType t : FileType.values()){			
+			setIdentifier(fileTypeLookupTable.getFileDefiner(t).getIdentifier());			
 			if (getIdentifier().identify(new File(getFilePath().toString()))){
-				setType(t);
+				setType(t);				
 				return true;	
-			}
-		}
+			}			
+			
+		}		
 		return false;
 	}
 	
