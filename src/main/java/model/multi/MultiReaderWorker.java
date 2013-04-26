@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import model.MetaReader;
 import model.MetaReader.RETCODES;
 import model.metafile.MetaFile;
+import model.realtime.IRealTimeResult;
 
 /*
  * A Worker class that is responsible for analysing a file 
@@ -16,15 +17,19 @@ public class MultiReaderWorker implements Runnable {
 	
 	private ArrayList<MetaFile> metaFiles;
 	private Path filePath;
+	private IRealTimeResult realTimeResult;
 	
 	public MultiReaderWorker(ArrayList<MetaFile> metaFiles, Path filePath) {
 		this.metaFiles = metaFiles;
 		this.filePath = filePath;
 	}
+		
+	public void setRealTimeResult(IRealTimeResult realTimeResult) {
+		this.realTimeResult = realTimeResult;
+	}
 	
-	//add result to the list in a thread safe way
-	private synchronized void addMetaFile(MetaFile metaFile) {
-		metaFiles.add(metaFile);
+	public IRealTimeResult getRealTimeResult() {
+		return realTimeResult;
 	}
 	
 	//thread's main method
@@ -32,8 +37,18 @@ public class MultiReaderWorker implements Runnable {
 		MetaReader reader = new MetaReader();
 		RETCODES ret = reader.analyseFile(filePath) ;
 		
-		if(ret == RETCODES.SUCCESS)			
-			addMetaFile(reader.getMetaFile());
+		if(ret == RETCODES.SUCCESS) {
+			//add result to the list in a thread safe way
+			synchronized (metaFiles) {
+				metaFiles.add(reader.getMetaFile());
+				
+				if(realTimeResult != null)
+					realTimeResult.use(reader.getMetaFile());
+			}			
+			
+			
+			
+		}
 		
 	}
 

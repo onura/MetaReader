@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -11,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import model.MetaReader.RETCODES;
 import model.metafile.MetaFile;
+import model.realtime.IRealTimeResult;
 
 /*
  *  To support analysing various files in a folder in parallel
@@ -21,19 +23,18 @@ public class MultiReader {
 	private ArrayList<MetaFile> metaFiles;
 	private Folder folder;
 	private ExecutorService executor;
-	private final int threadCount;
 	
 	public MultiReader(ArrayList<MetaFile> metaFiles, Folder folder) {
 		super();
 		setMetaFiles(metaFiles);
 		this.folder = folder;
-		threadCount = 10;
-		executor = Executors.newFixedThreadPool(threadCount);
+		executor = Executors.newCachedThreadPool();
 	} 
 	
 	public MultiReader(Path dir) {
 		this(null, new Folder(dir));
 	}
+	
 
 	public ArrayList<MetaFile> getMetaFiles() {
 		return metaFiles;
@@ -53,32 +54,60 @@ public class MultiReader {
 	public void setFolder(Folder folder) {
 		this.folder = folder;
 	}
-	
+		
 	
 	public RETCODES analyseFolder() {
 		RETCODES retCode = RETCODES.SUCCESS;
 		
 		try {
 			ArrayList<Path> files = folder.getFiles();
-			
-			/*
-			 * Uses threads from the pool for each file.
-			 * Threads already created and if all the threads are in use, 
-			 * new comers will wait in the queue 
-			 */
-			for(Path filePath:files) {
-				executor.execute(new MultiReaderWorker(metaFiles, Paths.get(filePath.toString())));
-			}
+			retCode = analyseFiles(files);
 			
 		} catch(IOException e) {
-			//wait all thread to finish.
-			executor.shutdown();		
-			try {
-				  executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
-			} catch(InterruptedException ei) {
-				  System.err.println(ei.getMessage());
-			}
 			retCode = RETCODES.UNKNOWNERROR;
+			e.printStackTrace();
+		}
+		
+		return retCode; 
+	}
+	
+	public RETCODES analyseFiles(ArrayList<Path> files) {							
+		/*
+		 * Uses threads from the pool for each file.
+		 * Threads already created and if all the threads are in use, 
+		 * new comers will wait in the queue 
+		 */
+		for(Path filePath:files) {
+			executor.execute(new MultiReaderWorker(metaFiles, Paths.get(filePath.toString())));
+		}
+			
+		//wait all thread to finish.
+		executor.shutdown();		
+		try {
+			  executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+		} catch(InterruptedException ei) {
+			System.err.println(ei.getMessage());
+		}
+		return RETCODES.SUCCESS; 
+	}
+	
+	public RETCODES analyseFiles(BlockingQueue<String> fileQueue, IRealTimeResult realTimeResult) {
+		String file;		
+		MultiReaderWorker worker;
+		
+		while(true) {
+			try {
+				file = fileQueue.take();			
+				
+				if(file == "\0")
+					break;
+				
+				worker = new MultiReaderWorker(metaFiles, Paths.get(file));
+				worker.setRealTimeResult(realTimeResult);				
+				executor.execute(worker);
+			} catch (InterruptedException e) {
+				System.err.println(e.getMessage());
+			}
 		}
 		
 		//wait all thread to finish.
@@ -88,9 +117,9 @@ public class MultiReader {
 		} catch(InterruptedException ei) {
 			System.err.println(ei.getMessage());
 		}
-		return retCode; 
+		
+		return RETCODES.SUCCESS;		
 	}
-	
 	
 	
 	@Override

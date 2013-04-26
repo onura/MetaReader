@@ -16,7 +16,7 @@ public class FileTypeLookupTable {
 		definers = new FileDefiner[FileType.values().length];
 		
 		definers[FileType.PDF.ordinal()] = new FileDefiner(new PDFExtractor(), new PDFIdentifier());		
-		definers[FileType.JPEG.ordinal()] = new FileDefiner(new JPEGExtractor(), new JPEGIdentifier());
+		definers[FileType.JPG.ordinal()] = new FileDefiner(new JPEGExtractor(), new JPEGIdentifier());
 		
 	}
 	
