@@ -13,8 +13,8 @@ public class TestRealTime {
 		
 		Path dd = Paths.get("/tmp/dump");		
 		RealTimeReader rtr = new RealTimeReader(dd);
-		rtr.process(GoogleFileSearch.search("iyte", FileType.PDF, 1));
-		
-		
+		GoogleFileSearch gfs = new GoogleFileSearch();
+		rtr.process(gfs.search("iyte", FileType.PDF, 5));
+				
 	}
 }

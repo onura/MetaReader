@@ -46,8 +46,6 @@ public class MultiReaderWorker implements Runnable {
 					realTimeResult.use(reader.getMetaFile());
 			}			
 			
-			
-			
 		}
 		
 	}

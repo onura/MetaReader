@@ -9,6 +9,9 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,11 +24,16 @@ import model.metafile.FileType;
  */
 
 public class GoogleFileSearch {
-	private static final int BUFFER_SIZE = 10000;
-	private static final String SEARCH_ADDRESS = "https://www.google.com.tr/search?output=search&q=";	
+	private final int BUFFER_SIZE = 10000;
+	private final String SEARCH_ADDRESS = "https://www.google.com.tr/search?output=search&q=";	
+	private ExecutorService executor;
+	
+	public GoogleFileSearch() {
+		executor = Executors.newFixedThreadPool(3);
+	}
 	
 	// makes a file search in the google and returns file links. 
-	public static ArrayList<String> search(String searchString, FileType fileType, int pageCount) {
+	public ArrayList<String> search(String searchString, FileType fileType, int pageCount) {
 		ArrayList<String> fileLinks = new ArrayList<String>();
 		try {			
 			String encodedString;
@@ -33,22 +41,29 @@ public class GoogleFileSearch {
 				//prepare url
 				encodedString = URLEncoder.encode("filetype:" + fileType.toString() + " " + searchString, "UTF-8");
 				URL url = new URL( SEARCH_ADDRESS + encodedString +"&start="+(i*10));
-				fileLinks.addAll(findFileLinks(getPage(url)));
+				executor.execute(new GoogleFileSearchWorker(fileLinks, url));								
 			}
-			
-			return fileLinks;
+						
 			
 		} catch (MalformedURLException e) {
-			System.err.println(e.getMessage());
-			return fileLinks;
+			System.err.println(e.getMessage());			
 		} catch (IOException e) {
-			System.err.println(e.getMessage());
-			return fileLinks;
+			System.err.println(e.getMessage());			
 		}		
+
+		//wait all thread to finish.
+		executor.shutdown();		
+		try {
+			executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+		} catch(InterruptedException e) {
+			System.err.println(e.getMessage());
+		}
+		
+		return fileLinks;
 	}
 	
 	// downloads a page
-	private static String getPage(URL url) throws IOException {
+	private String getPage(URL url) throws IOException {
 		
 		//create the https connection
 		HttpURLConnection https= (HttpsURLConnection) url.openConnection();
@@ -75,7 +90,7 @@ public class GoogleFileSearch {
 	}
 	
 	// extracts links from a google result page
-	private static ArrayList<String> findFileLinks(String pageContent) {
+	private ArrayList<String> findFileLinks(String pageContent) {
 		ArrayList<String> fileLinks = new ArrayList<String>();
 		
 		//regex for google links (I wrote it for just the specific case, it might not be so generic)
@@ -95,5 +110,33 @@ public class GoogleFileSearch {
 	}
 	
 	
+	class GoogleFileSearchWorker implements Runnable {
+		private ArrayList<String> fileLinks;
+		private URL url;
+		
+		public GoogleFileSearchWorker(ArrayList<String> fileLinks, URL url) {
+			this.fileLinks = fileLinks;
+			try {
+				this.url = new URL(url.toString());
+			} catch(MalformedURLException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+		
+		public void run() {
+			try {
+				ArrayList<String> fl = findFileLinks(getPage(url));
+				
+				synchronized (fileLinks) {
+					fileLinks.addAll(fl);
+				}
+				
+			} catch (MalformedURLException e) {
+				System.err.println(e.getMessage());				
+			} catch (IOException e) {
+				System.err.println(e.getMessage());				
+			}		
+		}
+	}
 	
 }
