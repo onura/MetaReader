@@ -29,6 +29,7 @@ public class Folder {
 		ArrayList<Path> filePaths = new ArrayList<Path>();
 		File directory = getDir().toFile();
 		File[] files = directory.listFiles();
+				
 		
 		for(File file:files) {
 			filePaths.add(Paths.get(file.getAbsolutePath()));

@@ -65,7 +65,10 @@ public class MultiReader {
 			
 		} catch(IOException e) {
 			retCode = RETCODES.UNKNOWNERROR;
-			e.printStackTrace();
+			//e.printStackTrace();
+		} catch(Exception e) {
+			//System.err.println(e.getMessage());
+			retCode = RETCODES.UNKNOWNERROR;
 		}
 		
 		return retCode; 
