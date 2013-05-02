@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import controller.RealTimePrint;
 
 import model.multi.MultiReader;
 import model.util.downloader.Downloader;
@@ -17,9 +16,11 @@ import model.util.downloader.Downloader;
 
 public class RealTimeReader {
 	private Path folder;
+	private final IRealTimeResult realTimeResultsController;
 	
-	public RealTimeReader(Path folder) {
+	public RealTimeReader(Path folder, IRealTimeResult realTimeResultsController) {
 		this.folder = folder;
+		this.realTimeResultsController = realTimeResultsController;
 	}
 	
 	//main process
@@ -73,7 +74,7 @@ public class RealTimeReader {
 		}
 
 		public void run() {
-			multiReader.analyseFiles(fileQueue, new RealTimePrint());
+			multiReader.analyseFiles(fileQueue, realTimeResultsController);
 		}
 				
 	}
