@@ -25,5 +25,10 @@ public class Location {
 		this.y = y;
 	}
 	
+	@Override
+	public String toString() {
+		
+		return "X Coordinate :" + x + "Y Coordinate :" + y;
+	}
 	
 }
