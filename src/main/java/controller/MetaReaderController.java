@@ -49,7 +49,7 @@ public class MetaReaderController {
 		fileUI.getFileData().getTextOwner().setText(control(reader.getMetaFile().getMetaData().getOwner()));
 		fileUI.getFileData().getTextMdf().setText(dateControl(reader.getMetaFile().getMetaData().getModificationDate()));
 		fileUI.getFileData().getTextCreation().setText(dateControl(reader.getMetaFile().getMetaData().getCreationDate()));
-		//fileUI.getFileData().getTextLoc().setText(control(reader.getMetaFile().getMetaData().getLocation().toString()));
+		fileUI.getFileData().getTextLoc().setText(control(reader.getMetaFile().getMetaData().getLocation().toString()));
 		fileUI.getFileData().getTextPlatform().setText(control(reader.getMetaFile().getMetaData().getPlatform()));
 		fileUI.getFileData().getTextApp().setText(control(reader.getMetaFile().getMetaData().getApplication()));
 			

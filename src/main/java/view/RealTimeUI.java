@@ -37,6 +37,8 @@ public class RealTimeUI extends JPanel implements ActionListener {
 	private JLabel lblSearchSomething;
 	private JLabel lblPage;
 	private JTextField textPageNr;
+	private JLabel lblChooseFile;
+	private JLabel lblFileInfo;
 	
 	public RealTimeUI() {		
 		
@@ -74,17 +76,26 @@ public class RealTimeUI extends JPanel implements ActionListener {
 		
 		JLabel lblType = new JLabel("Type");
 		
+		lblChooseFile = new JLabel("Choose File");
+		
+		lblFileInfo = new JLabel("");
+		lblFileInfo.setVisible(false);
+		
 		GroupLayout gl_realTimePanel = new GroupLayout(realTimePanel);
 		gl_realTimePanel.setHorizontalGroup(
 			gl_realTimePanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_realTimePanel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_realTimePanel.createParallelGroup(Alignment.LEADING, false)
+					.addGroup(gl_realTimePanel.createParallelGroup(Alignment.LEADING)
 						.addComponent(fileData, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_realTimePanel.createParallelGroup(Alignment.TRAILING, false)
-							.addComponent(fileNames, Alignment.LEADING, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addGroup(Alignment.LEADING, gl_realTimePanel.createSequentialGroup()
+						.addGroup(gl_realTimePanel.createSequentialGroup()
+							.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblFileInfo))
+						.addComponent(lblChooseFile)
+						.addGroup(gl_realTimePanel.createParallelGroup(Alignment.LEADING, false)
+							.addComponent(fileNames, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGroup(gl_realTimePanel.createSequentialGroup()
 								.addGroup(gl_realTimePanel.createParallelGroup(Alignment.LEADING, false)
 									.addComponent(txtFolderPath, GroupLayout.PREFERRED_SIZE, 393, GroupLayout.PREFERRED_SIZE)
 									.addGroup(gl_realTimePanel.createSequentialGroup()
@@ -96,11 +107,11 @@ public class RealTimeUI extends JPanel implements ActionListener {
 											.addComponent(lblType)
 											.addComponent(fileType, 0, 0, Short.MAX_VALUE))))
 								.addGap(18)
-								.addGroup(gl_realTimePanel.createParallelGroup(Alignment.LEADING, false)
+								.addGroup(gl_realTimePanel.createParallelGroup(Alignment.LEADING)
 									.addComponent(textPageNr, 0, 0, Short.MAX_VALUE)
-									.addComponent(btnSetFolder, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(lblPage)))))
-					.addGap(0))
+									.addGroup(gl_realTimePanel.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(btnSetFolder, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(lblPage)))))))
 		);
 		gl_realTimePanel.setVerticalGroup(
 			gl_realTimePanel.createParallelGroup(Alignment.LEADING)
@@ -110,7 +121,7 @@ public class RealTimeUI extends JPanel implements ActionListener {
 						.addComponent(txtFolderPath, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnSetFolder, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
-					.addGroup(gl_realTimePanel.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_realTimePanel.createParallelGroup(Alignment.LEADING, false)
 						.addGroup(gl_realTimePanel.createSequentialGroup()
 							.addGroup(gl_realTimePanel.createParallelGroup(Alignment.TRAILING)
 								.addGroup(gl_realTimePanel.createSequentialGroup()
@@ -125,12 +136,16 @@ public class RealTimeUI extends JPanel implements ActionListener {
 						.addGroup(gl_realTimePanel.createSequentialGroup()
 							.addComponent(lblPage)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textPageNr)))
-					.addGap(16)
-					.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+							.addComponent(textPageNr, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_realTimePanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblFileInfo))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(lblChooseFile)
+					.addGap(1)
 					.addComponent(fileNames, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(fileData, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
@@ -162,13 +177,15 @@ public class RealTimeUI extends JPanel implements ActionListener {
 			}else{
 				btnSearch.setEnabled(false);
 				fileNames.removeAllItems();
+				lblFileInfo.setVisible(false);
+
 				realTimeController = new RealTimeController(this);
 
 				if (!textSearch.getText().isEmpty() && !txtFolderPath.getText().isEmpty()){	
-					
+					lblFileInfo.setVisible(true);
 					realTimeController.getRealTimeMetadas(Paths.get(txtFolderPath.getText()),
 							textSearch.getText(), textPageNr.getText() );
-
+					
 					
 				}else{
 					setMsgBox("Please, fill neccessary parts");
@@ -182,6 +199,10 @@ public class RealTimeUI extends JPanel implements ActionListener {
 			realTimeController.setRealTimeMetadatas(fileNames.getSelectedIndex());
 		}
 				
+	}
+	
+	public JLabel getLblFileInfo(){
+		return lblFileInfo;
 	}
 	
 	public FileData getFileData() {

@@ -11,6 +11,7 @@ import java.util.HashMap;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 
+import model.metafile.Location;
 import model.metafile.MetaData;
 
 public class PDFExtractor implements IExtractor{
@@ -27,6 +28,7 @@ public class PDFExtractor implements IExtractor{
 			metaData.setCreationDate(pdfInfo.getCreationDate().getTime());
 		metaData.setOwner(pdfInfo.getAuthor());
 		metaData.setExtraData(this.getExtra(pdfInfo));
+		metaData.setLocation(new Location(null, null));
 		
 		pdf.close();		
 		return metaData;

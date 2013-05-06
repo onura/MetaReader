@@ -17,6 +17,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 
+import model.metafile.Location;
 import model.metafile.MetaData;
 
 public class JPEGExtractor implements IExtractor {
@@ -35,6 +36,10 @@ public class JPEGExtractor implements IExtractor {
 			metaData.setCreationDate(metadata.getDate(Metadata.ORIGINAL_DATE));
 			metaData.setModificationDate(metadata.getDate(Metadata.LAST_MODIFIED));
 			metaData.setExtraData(this.getExtra(metadata));
+			if (metadata.get(Metadata.LATITUDE) != null && metadata.get(Metadata.ALTITUDE) != null)
+				metaData.setLocation(new Location(new Double(metadata.get(Metadata.ALTITUDE)), new Double(metadata.get(Metadata.LATITUDE))));
+			else
+				metaData.setLocation(new Location(null, null));
 			
 		} catch (SAXException e) {
 			System.out.println(e.getClass());

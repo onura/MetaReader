@@ -44,7 +44,8 @@ public class RealTimeController {
 			realTimeUI.getFileData().getTextOwner().setText(control(realMetaFiles.get(index).getMetaData().getOwner()));
 			realTimeUI.getFileData().getTextMdf().setText(dateControl(realMetaFiles.get(index).getMetaData().getModificationDate()));
 			realTimeUI.getFileData().getTextCreation().setText(dateControl(realMetaFiles.get(index).getMetaData().getCreationDate()));
-			//realTimeUI.getFileData().getTextPlatform().setText(control(realMetaFiles.get(index).getMetaData().getPlatform()));
+			realTimeUI.getFileData().getTextLoc().setText(realMetaFiles.get(index).getMetaData().getLocation().toString());
+			realTimeUI.getFileData().getTextPlatform().setText(control(realMetaFiles.get(index).getMetaData().getPlatform()));
 			realTimeUI.getFileData().getTextApp().setText(control(realMetaFiles.get(index).getMetaData().getApplication()));
 
 			for ( Entry<String, String> extraData :realMetaFiles.get(index).getMetaData().getExtraData().entrySet()){
@@ -65,6 +66,10 @@ public class RealTimeController {
 		if (date != null)
 			return date.toString();
 		return "Unknown";
+	}
+	
+	public void setLblFileInfo(){
+		realTimeUI.getLblFileInfo().setText("Total number of files is " + realTimeUI.getFileComboBox().getItemCount());
 	}
 	
 	public ArrayList<MetaFile> getRealMeta(){

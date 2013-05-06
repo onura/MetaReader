@@ -66,7 +66,7 @@ public class MultiReaderController {
 			folderUI.getFileData().getTextOwner().setText(control(metaFiles.get(index).getMetaData().getOwner()));
 			folderUI.getFileData().getTextMdf().setText(dateControl(metaFiles.get(index).getMetaData().getModificationDate()));
 			folderUI.getFileData().getTextCreation().setText(dateControl(metaFiles.get(index).getMetaData().getCreationDate()));
-			//folderUI.getFileData().getTextLoc().setText(control(metaFiles.get(index).getMetaData().getLocation().toString()));
+			folderUI.getFileData().getTextLoc().setText(control(metaFiles.get(index).getMetaData().getLocation().toString()));
 			folderUI.getFileData().getTextPlatform().setText(control(metaFiles.get(index).getMetaData().getPlatform()));
 			folderUI.getFileData().getTextApp().setText(control(metaFiles.get(index).getMetaData().getApplication()));
 			

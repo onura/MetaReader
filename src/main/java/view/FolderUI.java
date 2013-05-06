@@ -16,6 +16,8 @@ import javax.swing.GroupLayout.Alignment;
 import model.MetaReader.RETCODES;
 
 import controller.MultiReaderController;
+import javax.swing.JLabel;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 @SuppressWarnings("serial")
 public class FolderUI extends JPanel implements ActionListener{
@@ -26,6 +28,8 @@ public class FolderUI extends JPanel implements ActionListener{
 	private JButton btnGetMetadatas;
 	private JComboBox<String> fileNames;
 	private MultiReaderController multiReader;
+	private JLabel lblFilesInfo;
+	private JLabel lblChooseFile;
 	
 	public FolderUI() {
 		
@@ -44,19 +48,28 @@ public class FolderUI extends JPanel implements ActionListener{
 		fileNames = new JComboBox<String>();
 		fileNames.addActionListener(this);
 		
+		lblFilesInfo = new JLabel("");
+		lblFilesInfo.setVisible(false);
+		
+		lblChooseFile = new JLabel("Choose File");
+		
 		GroupLayout gl_filePanel = new GroupLayout(folderPanel);
 		gl_filePanel.setHorizontalGroup(
 			gl_filePanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_filePanel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_filePanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(fileData, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(fileNames, GroupLayout.PREFERRED_SIZE, 568, GroupLayout.PREFERRED_SIZE)
+					.addGroup(gl_filePanel.createParallelGroup(Alignment.LEADING, false)
 						.addGroup(gl_filePanel.createSequentialGroup()
 							.addComponent(txtFolderPath, GroupLayout.PREFERRED_SIZE, 400, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
-							.addComponent(btnChooseFolder, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE))
-						.addComponent(btnGetMetadatas, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE))
+							.addComponent(btnChooseFolder, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addGroup(gl_filePanel.createSequentialGroup()
+							.addComponent(btnGetMetadatas, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblFilesInfo))
+						.addComponent(lblChooseFile)
+						.addComponent(fileData, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE)
+						.addComponent(fileNames, GroupLayout.PREFERRED_SIZE, 547, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		gl_filePanel.setVerticalGroup(
@@ -67,8 +80,12 @@ public class FolderUI extends JPanel implements ActionListener{
 						.addComponent(txtFolderPath, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnChooseFolder, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
 					.addGap(37)
-					.addComponent(btnGetMetadatas, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-					.addGap(39)
+					.addGroup(gl_filePanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnGetMetadatas, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblFilesInfo))
+					.addGap(18)
+					.addComponent(lblChooseFile)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(fileNames, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addComponent(fileData, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -97,6 +114,7 @@ public class FolderUI extends JPanel implements ActionListener{
 		}
 		
 		if(e.getSource() == btnGetMetadatas){
+			lblFilesInfo.setVisible(false);
 			fileNames.removeAllItems();	
 			multiReader  = new MultiReaderController(this);
 			
@@ -106,6 +124,8 @@ public class FolderUI extends JPanel implements ActionListener{
 				if(multiReader.getRetCode() == RETCODES.SUCCESS){
 					try{
 						fileNames.setSelectedIndex(0);
+						lblFilesInfo.setVisible(true);
+						lblFilesInfo.setText("Total number of files is " + fileNames.getItemCount());
 					}catch (IllegalArgumentException ie) {
 						setMsgBox("There is no supported file in the selected directory.");
 					}

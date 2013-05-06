@@ -17,6 +17,7 @@ public class RealTimePrint implements IRealTimeResult{
 	public void use(MetaFile metafile) {
 		realTime.getRealMeta().add(metafile);
 		realTime.addFileNames(metafile.getFileInfo().getFileName());
+		realTime.setLblFileInfo();
 	}
 
 }
