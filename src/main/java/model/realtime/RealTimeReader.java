@@ -41,9 +41,9 @@ public class RealTimeReader {
 	//make downloader runnable
 	class DownloaderWrapper implements Runnable {
 
-		Downloader downloader;		
-		ArrayList<String> fileLinks;
-		BlockingQueue<String> fileQueue;
+		private Downloader downloader;		
+		private ArrayList<String> fileLinks;
+		private BlockingQueue<String> fileQueue;
 				
 		
 		public DownloaderWrapper(Downloader downloader,
@@ -63,8 +63,8 @@ public class RealTimeReader {
 	
 	//make multireader runnable
 	class MultiReaderWrapper implements Runnable {
-		MultiReader multiReader;
-		BlockingQueue<String> fileQueue;			
+		private MultiReader multiReader;
+		private BlockingQueue<String> fileQueue;			
 		
 		public MultiReaderWrapper(MultiReader multiReader,
 				BlockingQueue<String> fileQueue) {

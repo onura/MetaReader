@@ -21,7 +21,7 @@ public class MetaReaderUI{
 	
 	private void initialize() {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	    frame.setBounds(100, 100, 670, screenSize.height);
+	    frame.setBounds(100, 100, 675, screenSize.height-75);
 		frame.setResizable(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new GridLayout(1, 0, 0, 0));

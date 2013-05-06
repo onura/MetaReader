@@ -34,6 +34,7 @@ public class GoogleFileSearch {
 	
 	// makes a file search in the google and returns file links. 
 	public ArrayList<String> search(String searchString, FileType fileType, int pageCount) {
+		
 		ArrayList<String> fileLinks = new ArrayList<String>();
 		try {			
 			String encodedString;
