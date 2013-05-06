@@ -25,7 +25,7 @@ public class FolderUI extends JPanel implements ActionListener{
 	private JPanel folderPanel;
 	private JTextField txtFolderPath;
 	private JButton btnChooseFolder;
-	private JButton btnGetMetadatas;
+	private JButton btnGetMetadata;
 	private JComboBox<String> fileNames;
 	private MultiReaderController multiReader;
 	private JLabel lblFilesInfo;
@@ -42,8 +42,8 @@ public class FolderUI extends JPanel implements ActionListener{
 		btnChooseFolder = new JButton("Choose Folder");		
 		btnChooseFolder.addActionListener(this);
 
-		btnGetMetadatas = new JButton("Get Metadatas");
-		btnGetMetadatas.addActionListener(this);
+		btnGetMetadata = new JButton("Get Metadata");
+		btnGetMetadata.addActionListener(this);
 		
 		fileNames = new JComboBox<String>();
 		fileNames.addActionListener(this);
@@ -64,7 +64,7 @@ public class FolderUI extends JPanel implements ActionListener{
 							.addGap(18)
 							.addComponent(btnChooseFolder, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 						.addGroup(gl_filePanel.createSequentialGroup()
-							.addComponent(btnGetMetadatas, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
+							.addComponent(btnGetMetadata, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(lblFilesInfo))
 						.addComponent(lblChooseFile)
@@ -81,7 +81,7 @@ public class FolderUI extends JPanel implements ActionListener{
 						.addComponent(btnChooseFolder, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
 					.addGap(37)
 					.addGroup(gl_filePanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnGetMetadatas, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnGetMetadata, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblFilesInfo))
 					.addGap(18)
 					.addComponent(lblChooseFile)
@@ -113,7 +113,7 @@ public class FolderUI extends JPanel implements ActionListener{
 			}
 		}
 		
-		if(e.getSource() == btnGetMetadatas){
+		if(e.getSource() == btnGetMetadata){
 			lblFilesInfo.setVisible(false);
 			fileNames.removeAllItems();	
 			multiReader  = new MultiReaderController(this);

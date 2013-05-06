@@ -1,27 +1,34 @@
 package view;
 
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 
 import javax.swing.*;
 
 public class MetaReaderUI{
 
 	private JFrame frame;
+	private JScrollPane scroll;
 
 	public MetaReaderUI() {
+
+		frame = new JFrame();		
 		initialize();
 	}
 	
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 615, 800);
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	    frame.setBounds(100, 100, 670, screenSize.height);
+		frame.setResizable(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		frame.getContentPane().add(tabbedPane);
+		scroll = new JScrollPane(tabbedPane);
+		frame.getContentPane().add(scroll);
 		
 		FileUI fileUI = new FileUI();
 		tabbedPane.addTab("File", null, fileUI.getFilePanel(), null);

@@ -53,7 +53,7 @@ public class RealTimeUI extends JPanel implements ActionListener {
 		btnSetFolder = new JButton("Set Folder");		
 		btnSetFolder.addActionListener(this);
 
-		btnSearch = new JButton("Search Metadatas");
+		btnSearch = new JButton("Search Metadata");
 		btnSearch.addActionListener(this);
 		
 		fileNames = new JComboBox<String>();
@@ -136,7 +136,7 @@ public class RealTimeUI extends JPanel implements ActionListener {
 						.addGroup(gl_realTimePanel.createSequentialGroup()
 							.addComponent(lblPage)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textPageNr, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(textPageNr)))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_realTimePanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
