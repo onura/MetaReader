@@ -28,7 +28,6 @@ public class FolderUI extends JPanel implements ActionListener{
 	private MultiReaderController multiReader;
 	
 	public FolderUI() {
-		multiReader  = new MultiReaderController(this);
 		
 		folderPanel = new JPanel();
 		fileData = new FileData();
@@ -99,15 +98,16 @@ public class FolderUI extends JPanel implements ActionListener{
 		
 		if(e.getSource() == btnGetMetadatas){
 			fileNames.removeAllItems();	
+			multiReader  = new MultiReaderController(this);
+			
 			if (!txtFolderPath.getText().isEmpty()){
-				multiReader.clearMetaFileList();
 				multiReader.getFilesMetadata(Paths.get(txtFolderPath.getText()));
 				
 				if(multiReader.getRetCode() == RETCODES.SUCCESS){
 					try{
-					fileNames.setSelectedIndex(0);
+						fileNames.setSelectedIndex(0);
 					}catch (IllegalArgumentException ie) {
-						setMsgBox("The file type is unsupported");
+						setMsgBox("There is no supported file in the selected directory.");
 					}
 				}
 			}else{

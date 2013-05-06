@@ -70,7 +70,7 @@ public class MetaReaderController {
 	public String dateControl(Date date){		
 		if (date != null)
 			return date.toString();
-		return "Unknown date";
+		return "Unknown";
 	}
 	
 	/* error message arrangement */

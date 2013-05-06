@@ -27,8 +27,10 @@ public class Location {
 	
 	@Override
 	public String toString() {
-		
-		return "X Coordinate :" + x + "Y Coordinate :" + y;
+		if ( x == null || y == null){
+			return "Unknown";
+		}else
+			return "X Coordinate :" + x + "Y Coordinate :" + y;
 	}
 	
 }

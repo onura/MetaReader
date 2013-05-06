@@ -54,13 +54,6 @@ public class MultiReaderController {
 		return retCode;
 	}
 	
-	public void clearMetaFileList(){
-		if (metaFiles.size() > 0){
-			for (int i = 0; i < metaFiles.size(); i++){
-				metaFiles.remove(i);
-			}	
-		}
-	}
 	
 	public void setMetaFile(int index){
 		String extra = "";
@@ -95,7 +88,7 @@ public class MultiReaderController {
 	public String dateControl(Date date){		
 		if (date != null)
 			return date.toString();
-		return "Unknown date";
+		return "Unknown";
 	}
 	
 	public void getErrorMsg(RETCODES retCode){

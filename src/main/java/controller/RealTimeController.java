@@ -23,9 +23,14 @@ public class RealTimeController {
 	
 	public void getRealTimeMetadas(Path tempDir,String search, String rank){
 		
-		RealTimeReader rtr = new RealTimeReader(tempDir, new RealTimePrint(this));	
-		GoogleFileSearch gfs = new GoogleFileSearch();
-		rtr.process(gfs.search(search, FileType.PDF, 1));
+		if(addFileType() != null){
+			RealTimeReader rtr = new RealTimeReader(tempDir, new RealTimePrint(this));	
+			GoogleFileSearch gfs = new GoogleFileSearch();
+			rtr.process(gfs.search(search, addFileType(), new Integer(rank)));
+		}else{
+			realTimeUI.setMsgBox("Check file type");
+		}
+			
 	}
 	
 	public void setRealTimeMetadatas(int index){
@@ -59,17 +64,25 @@ public class RealTimeController {
 	public String dateControl(Date date){		
 		if (date != null)
 			return date.toString();
-		return "Unknown date";
+		return "Unknown";
 	}
 	
 	public ArrayList<MetaFile> getRealMeta(){
 		return realMetaFiles;
 	}
 	
-	public void addFileNames() {
-		for(MetaFile meta : realMetaFiles){
-			realTimeUI.getFileComboBox().insertItemAt(meta.getFileInfo().getFileName(), realTimeUI.getFileComboBox().getItemCount());
+	public void addFileNames(String metaFile){
+		realTimeUI.getFileComboBox().addItem(metaFile);
+	}
+	
+	public FileType addFileType(){
+		for( FileType t : FileType.values()){
+			if (t.name().equals(realTimeUI.getFileType().getSelectedItem().toString())){
+				return t;
+			}
 		}
+		return null;
+
 	}
 
 }
