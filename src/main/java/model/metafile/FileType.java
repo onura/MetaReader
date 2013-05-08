@@ -5,5 +5,5 @@
 package model.metafile;
 
 public enum FileType {
-	PDF, JPG;	
+	PDF, JPG, DOCX, XSLX;	
 }

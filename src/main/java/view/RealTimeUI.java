@@ -177,6 +177,7 @@ public class RealTimeUI extends JPanel implements ActionListener {
 			}else{
 				btnSearch.setEnabled(false);
 				fileNames.removeAllItems();
+				lblFileInfo.setText("");
 				lblFileInfo.setVisible(false);
 
 				realTimeController = new RealTimeController(this);

@@ -22,15 +22,17 @@ public class RealTimeController {
 	}
 	
 	public void getRealTimeMetadas(Path tempDir,String search, String rank){
-		
-		if(addFileType() != null){
-			RealTimeReader rtr = new RealTimeReader(tempDir, new RealTimePrint(this));	
-			GoogleFileSearch gfs = new GoogleFileSearch();
-			rtr.process(gfs.search(search, addFileType(), new Integer(rank)));
-		}else{
-			realTimeUI.setMsgBox("Check file type");
-		}
-			
+		try{
+			if(addFileType() != null){
+				RealTimeReader rtr = new RealTimeReader(tempDir, new RealTimePrint(this));	
+				GoogleFileSearch gfs = new GoogleFileSearch();
+				rtr.process(gfs.search(search, addFileType(), new Integer(rank)));
+			}else{
+				realTimeUI.setMsgBox("Check file type");
+			}
+		}catch(NumberFormatException nfe){
+			realTimeUI.setMsgBox("Please, enter correct number for page number");
+		}			
 	}
 	
 	public void setRealTimeMetadatas(int index){
