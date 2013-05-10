@@ -17,10 +17,12 @@ import model.util.downloader.Downloader;
 public class RealTimeReader {
 	private Path folder;
 	private final IRealTimeResult realTimeResultsController;
+	private final IRealTimeFinishEvent finishEvent;
 	
-	public RealTimeReader(Path folder, IRealTimeResult realTimeResultsController) {
+	public RealTimeReader(Path folder, IRealTimeResult realTimeResultsController, IRealTimeFinishEvent finishEvent) {
 		this.folder = folder;
 		this.realTimeResultsController = realTimeResultsController;
+		this.finishEvent = finishEvent;
 	}
 	
 	//main process
@@ -28,13 +30,13 @@ public class RealTimeReader {
 		BlockingQueue<String> fileQueue = new LinkedBlockingQueue<String>();		
 		
 		DownloaderWrapper downloader = new DownloaderWrapper(new Downloader(folder), fileLinks, fileQueue);			
-		MultiReaderWrapper multiReader = new MultiReaderWrapper(new MultiReader(folder), fileQueue);
+		MultiReaderWrapper multiReader = new MultiReaderWrapper(new MultiReader(folder), fileQueue, finishEvent);
 		
 		Thread downloaderThread = new Thread(downloader);
 		Thread multiReaderThread = new Thread(multiReader);
 		
 		downloaderThread.start();
-		multiReaderThread.start();
+		multiReaderThread.start();		
 		
 	}
 	
@@ -64,17 +66,20 @@ public class RealTimeReader {
 	//make multireader runnable
 	class MultiReaderWrapper implements Runnable {
 		private MultiReader multiReader;
-		private BlockingQueue<String> fileQueue;			
+		private BlockingQueue<String> fileQueue;
+		private IRealTimeFinishEvent finishEvent;
 		
 		public MultiReaderWrapper(MultiReader multiReader,
-				BlockingQueue<String> fileQueue) {
+				BlockingQueue<String> fileQueue, IRealTimeFinishEvent finishEvent) {
 			super();
 			this.multiReader = multiReader;
 			this.fileQueue = fileQueue;
+			this.finishEvent = finishEvent;
 		}
 
 		public void run() {
 			multiReader.analyseFiles(fileQueue, realTimeResultsController);
+			finishEvent.finish();
 		}
 				
 	}

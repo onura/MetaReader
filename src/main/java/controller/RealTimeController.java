@@ -24,7 +24,7 @@ public class RealTimeController {
 	public void getRealTimeMetadas(Path tempDir,String search, String rank){
 		try{
 			if(addFileType() != null){
-				RealTimeReader rtr = new RealTimeReader(tempDir, new RealTimePrint(this));	
+				RealTimeReader rtr = new RealTimeReader(tempDir, new RealTimePrint(this), new RealTimeFinish());	
 				GoogleFileSearch gfs = new GoogleFileSearch();
 				rtr.process(gfs.search(search, addFileType(), new Integer(rank)));
 			}else{
