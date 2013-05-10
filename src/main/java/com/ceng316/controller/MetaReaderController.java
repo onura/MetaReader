@@ -1,18 +1,19 @@
 package com.ceng316.controller;
 
 import java.nio.file.Path;
-import java.util.Date;
 import java.util.Map.Entry;
 
 import com.ceng316.model.MetaReader;
 import com.ceng316.model.MetaReader.RETCODES;
 import com.ceng316.model.metafile.FileType;
+import com.ceng316.model.util.xml.XMLSaver;
 import com.ceng316.view.FileUI;
 
 
 
-public class MetaReaderController {
+public class MetaReaderController extends MRController{
 	private FileUI fileUI;
+	private MetaReader reader;
 	
 	public MetaReaderController(FileUI fileUI){
 		this.fileUI = fileUI;
@@ -20,7 +21,7 @@ public class MetaReaderController {
 	
 	public void getFileMetadata(Path filePath){
 		
-		MetaReader reader = new MetaReader();
+		reader = new MetaReader();
 		RETCODES retCode;
 		if(fileUI.controlRdtBtn() != -1){
 			retCode = reader.analyseFile(filePath,FileType.values()[fileUI.controlRdtBtn()]);
@@ -33,14 +34,15 @@ public class MetaReaderController {
 		reader.getMetaFile().getFileInfo();
 				
 		if(retCode == RETCODES.SUCCESS){
-			getMetadata(reader);
+			analyseFileMetadata(reader);
 		}else{
-			getErrorMsg(retCode);
+			fileUI.setMsgBox(getErrorMsg(retCode));
 		}
 	}
 	
+	
 	/* The file metadata is gathered and filled to suitable places.*/
-	public void getMetadata(MetaReader reader){
+	public void analyseFileMetadata(MetaReader reader){
 		String extra = "";
 		
 		fileUI.getFileData().getTextName().setText(control(reader.getMetaFile().getFileInfo().getFileName()));
@@ -48,8 +50,8 @@ public class MetaReaderController {
 		fileUI.getFileData().getTextType().setText(control(reader.getMetaFile().getFileInfo().getType().toString()));
 			
 		fileUI.getFileData().getTextOwner().setText(control(reader.getMetaFile().getMetaData().getOwner()));
-		fileUI.getFileData().getTextMdf().setText(dateControl(reader.getMetaFile().getMetaData().getModificationDate()));
-		fileUI.getFileData().getTextCreation().setText(dateControl(reader.getMetaFile().getMetaData().getCreationDate()));
+		fileUI.getFileData().getTextMdf().setText(control(reader.getMetaFile().getMetaData().getModificationDate()));
+		fileUI.getFileData().getTextCreation().setText(control(reader.getMetaFile().getMetaData().getCreationDate()));
 		fileUI.getFileData().getTextLoc().setText(control(reader.getMetaFile().getMetaData().getLocation().toString()));
 		fileUI.getFileData().getTextPlatform().setText(control(reader.getMetaFile().getMetaData().getPlatform()));
 		fileUI.getFileData().getTextApp().setText(control(reader.getMetaFile().getMetaData().getApplication()));
@@ -57,44 +59,14 @@ public class MetaReaderController {
 		for ( Entry<String, String> extraData :reader.getMetaFile().getMetaData().getExtraData().entrySet()){
 			extra += extraData.getKey() + ":" + control(extraData.getValue()) + "\n";
 		}
-		fileUI.getFileData().getTextExtraData().setText(extra);
 		
+		fileUI.getFileData().getTextExtraData().setText(extra);		
 	}
 	
-	/* incomming value control */
-	public String control(String text){
-		if (text == null)
-			return "Unknown";
-		return text;
-	}
-	
-	public String dateControl(Date date){		
-		if (date != null)
-			return date.toString();
-		return "Unknown";
-	}
-	
-	/* error message arrangement */
-	public void getErrorMsg(RETCODES retCode){
-		String errorMSG = "Some thing was wrong.";
+	public void saveFileMetadata(String filePath){
+		String extension = reader.getMetaFile().getFileInfo().getFileName().replaceFirst("[.][^.]+$", "");
 		
-		switch (retCode) {
-		case FILENOTFOUND:
-			errorMSG = "File couldn't found.";				
-			break;
-		case UNKNOWNTYPE:
-			errorMSG = "File type doesn't supported yet.";
-			break;
-		case WRONGFILETYPE:
-			errorMSG = "The selected file type doesn't match the real file type.";
-			break;
-		case UNKNOWNERROR:
-			errorMSG = "An unknown error occured.";
-			break;
-		default:
-			break;
-		}
-		fileUI.setMsgBox(errorMSG);
+		XMLSaver.save(filePath + "/" + extension, reader.getMetaFile());
 	}
 
 }

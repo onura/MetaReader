@@ -1,17 +1,13 @@
 package com.ceng316.view;
 
-
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
-import java.awt.Toolkit;
 
 import javax.swing.*;
 
 public class MetaReaderUI{
 
 	private JFrame frame;
-	private JScrollPane scroll;
 
 	public MetaReaderUI() {
 
@@ -20,15 +16,13 @@ public class MetaReaderUI{
 	}
 	
 	private void initialize() {
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	    frame.setBounds(100, 100, 675, screenSize.height-75);
+	    frame.setBounds(50, 10, 600, 710);
 		frame.setResizable(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		scroll = new JScrollPane(tabbedPane);
-		frame.getContentPane().add(scroll);
+		frame.getContentPane().add(tabbedPane);
 		
 		FileUI fileUI = new FileUI();
 		tabbedPane.addTab("File", null, fileUI.getFilePanel(), null);

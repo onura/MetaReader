@@ -2,32 +2,26 @@ package com.ceng316.controller;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Map.Entry;
 
 import com.ceng316.model.MetaReader.RETCODES;
-import com.ceng316.model.metafile.MetaFile;
 import com.ceng316.model.multi.MultiReader;
 import com.ceng316.view.FolderUI;
 
 
 
-public class MultiReaderController {
+public class MultiReaderController extends MRController{
 	
 	private FolderUI folderUI;
 	private RETCODES retCode;
-	private ArrayList<MetaFile> metaFiles;
+	private MultiReader multiReader;
 	
 	public MultiReaderController(FolderUI folderUI){
 		this.folderUI = folderUI;
-		this.metaFiles = new ArrayList<MetaFile>();
 	}
 	
-	public void getFilesMetadata(Path folderPath){
+	public void analyseMultiFiles(Path folderPath){
 	
-		MultiReader multiReader = new MultiReader(folderPath);	
-		
+		multiReader = new MultiReader(folderPath);			
 		retCode = multiReader.analyseFolder();
 		
 		if (retCode == RETCODES.SUCCESS){
@@ -38,7 +32,7 @@ public class MultiReaderController {
 				
 				for (int i = 0; i < multiReader.getMetaFiles().size(); i++){
 					folderUI.addFileNames(multiReader.getMetaFiles().get(i).getFileInfo().getFileName(),i);
-					metaFiles.add(multiReader.getMetaFiles().get(i));
+					getMetaFiles().add(multiReader.getMetaFiles().get(i));
 				}	
 				
 			} catch (IOException e) {
@@ -46,7 +40,7 @@ public class MultiReaderController {
 			}	
 			
 		}else{
-			getErrorMsg(retCode);
+			folderUI.setMsgBox(getErrorMsg(retCode));
 		}	
 		
 	}
@@ -54,54 +48,19 @@ public class MultiReaderController {
 	public RETCODES getRetCode(){
 		return retCode;
 	}
+
 	
-	
-	public void setMetaFile(int index){
-		String extra = "";
-		
-		if (index >= 0){			
-			folderUI.getFileData().getTextName().setText(control(metaFiles.get(index).getFileInfo().getFileName()));
-			folderUI.getFileData().getTextPath().setText(control(metaFiles.get(index).getFileInfo().getFilePath().toString()));
-			folderUI.getFileData().getTextType().setText(control(metaFiles.get(index).getFileInfo().getType().toString()));
-			
-			folderUI.getFileData().getTextOwner().setText(control(metaFiles.get(index).getMetaData().getOwner()));
-			folderUI.getFileData().getTextMdf().setText(dateControl(metaFiles.get(index).getMetaData().getModificationDate()));
-			folderUI.getFileData().getTextCreation().setText(dateControl(metaFiles.get(index).getMetaData().getCreationDate()));
-			folderUI.getFileData().getTextLoc().setText(control(metaFiles.get(index).getMetaData().getLocation().toString()));
-			folderUI.getFileData().getTextPlatform().setText(control(metaFiles.get(index).getMetaData().getPlatform()));
-			folderUI.getFileData().getTextApp().setText(control(metaFiles.get(index).getMetaData().getApplication()));
-			
-			for ( Entry<String, String> extraData :metaFiles.get(index).getMetaData().getExtraData().entrySet()){
-				extra += extraData.getKey() + ":" + control(extraData.getValue()) + "\n";
-			}
-			folderUI.getFileData().getTextExtraData().setText(extra);
-				
-		}		
-	}
-	
-	
-	public String control(String text){
-		if (text == null)
-			return "Unknown";
-		return text;
-	}
-	
-	public String dateControl(Date date){		
-		if (date != null)
-			return date.toString();
-		return "Unknown";
-	}
-	
-	public void getErrorMsg(RETCODES retCode){
+	@Override
+	public String getErrorMsg(RETCODES retCode){
 		String errorMSG = "Some thing was wrong.";
 		switch (retCode) {
-		case UNKNOWNERROR:
-			errorMSG = "The Folder directory couldn't found.";
-			break;
-		default:
-			break;
+			case UNKNOWNERROR:
+				errorMSG = "The Folder directory couldn't found.";
+				break;
+			default:
+				break;
 		}
-		folderUI.setMsgBox(errorMSG);
+		return errorMSG;
 	}
 
 }

@@ -15,9 +15,13 @@ public class RealTimePrint implements IRealTimeResult{
 	}
 
 	public void use(MetaFile metafile) {
-		realTime.getRealMeta().add(metafile);
-		realTime.addFileNames(metafile.getFileInfo().getFileName());
-		realTime.setLblFileInfo();
+		if (realTime != null){
+			realTime.getMetaFiles().add(metafile);
+			realTime.addFileNames(metafile.getFileInfo().getFileName());
+			realTime.getRealTimeUI().getLblFileInfo().setText("Total number of files is " + 
+									realTime.getRealTimeUI().getFileComboBox().getItemCount());
+		}else
+			System.out.println(metafile);		
 	}
 
 }
