@@ -5,9 +5,10 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-import model.multi.MultiReader;
 
 import org.junit.Test;
+
+import com.ceng316.model.multi.MultiReader;
 
 public class TestMultiReader {
 

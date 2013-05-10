@@ -5,9 +5,10 @@ import static org.junit.Assert.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import model.MetaReader;
-import model.MetaReader.RETCODES;
-import model.metafile.FileType;
+import com.ceng316.model.MetaReader;
+import com.ceng316.model.MetaReader.RETCODES;
+import com.ceng316.model.metafile.FileType;
+
 
 public class TestMetaReader {
 

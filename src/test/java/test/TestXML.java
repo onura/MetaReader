@@ -2,10 +2,11 @@ package test;
 
 import java.nio.file.Paths;
 
-import model.MetaReader;
-import model.MetaReader.RETCODES;
-import model.multi.MultiReader;
-import model.util.xml.XMLSaver;
+import com.ceng316.model.MetaReader;
+import com.ceng316.model.MetaReader.RETCODES;
+import com.ceng316.model.multi.MultiReader;
+import com.ceng316.model.util.xml.XMLSaver;
+
 
 public class TestXML {
 	public static void main(String[] args) {		
