@@ -6,8 +6,10 @@ package model.metafile;
 
 import java.util.Date;
 import java.util.HashMap;
+import javax.xml.bind.annotation.XmlElement;
 
 
+@SuppressWarnings("restriction")
 public class MetaData {
 	private String owner;
 	private Date modificationDate;
@@ -35,14 +37,16 @@ public class MetaData {
 		this(null, null, null, null, null, null, null);
 	}
 	
+	@XmlElement
 	public String getOwner() {
 		return owner;
 	}
-
+	
 	public void setOwner(String owner) {
 		this.owner = owner;
 	}
 
+	@XmlElement
 	public Date getModificationDate() {
 		return modificationDate;
 	}	
@@ -51,6 +55,7 @@ public class MetaData {
 		this.modificationDate = modificationDate;
 	}
 	
+	@XmlElement
 	public Date getCreationDate() {
 		return creationDate;
 	}
@@ -59,6 +64,7 @@ public class MetaData {
 		this.creationDate = creationDate;
 	}
 	
+	@XmlElement
 	public Location getLocation() {
 		return location;
 	}
@@ -67,6 +73,7 @@ public class MetaData {
 		this.location = location;
 	}
 
+	@XmlElement
 	public String getPlatform() {
 		return platform;
 	}
@@ -75,6 +82,7 @@ public class MetaData {
 		this.platform = platform;
 	}
 
+	@XmlElement
 	public String getApplication() {
 		return application;
 	}
@@ -83,6 +91,7 @@ public class MetaData {
 		this.application = application;
 	}
 
+	@XmlElement
 	public HashMap<String, String> getExtraData() {
 		return extraData;
 	}

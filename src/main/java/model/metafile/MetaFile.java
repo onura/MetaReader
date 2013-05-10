@@ -6,9 +6,14 @@ package model.metafile;
 
 import java.io.File;
 import java.io.IOException;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import model.extractors.IExtractor;
 
+@SuppressWarnings("restriction")
+@XmlRootElement
 public class MetaFile {
 	private FileInfo fileInfo;
 	private MetaData metaData;
@@ -32,18 +37,21 @@ public class MetaFile {
 	public FileInfo getFileInfo() {
 		return fileInfo;
 	}
+	@XmlElement
 	public void setFileInfo(FileInfo fileInfo) {
 		this.fileInfo = fileInfo;
 	}
 	public MetaData getMetaData() {
 		return metaData;
 	}
+	@XmlElement
 	public void setMetaData(MetaData metaData) {
 		this.metaData = metaData;
 	}
 	public IExtractor getExtractor() {
 		return extractor;
 	}
+	@XmlTransient
 	public void setExtractor(IExtractor extractor) {
 		this.extractor = extractor;
 	}

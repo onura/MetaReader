@@ -9,8 +9,12 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlElement;
+
 import model.identifiers.IIdentifier;
 
+@SuppressWarnings("restriction")
 public class FileInfo {
 	private String fileName;
 	private Path filePath;
@@ -43,11 +47,11 @@ public class FileInfo {
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
-
-	public Path getFilePath() {
-		return filePath;
+	@XmlElement
+	public String getFilePath() {
+		return filePath.toString();
 	}
-
+	
 	public void setFilePath(Path filePath) {
 		this.filePath = filePath;
 	}
@@ -64,6 +68,7 @@ public class FileInfo {
 		return identifier;
 	}
 
+	@XmlTransient
 	public void setIdentifier(IIdentifier identifier) {
 		this.identifier = identifier;
 	}
@@ -92,7 +97,7 @@ public class FileInfo {
 	
 	public void findFileName() throws IOException {
 		
-        setFileName(getFilePath().getName(getFilePath().getNameCount()-1).toString());        
+        setFileName(Paths.get(getFilePath()).getName(Paths.get(getFilePath()).getNameCount()-1).toString());        
 	}
 	
 	public String FindAbsolutePath(){
