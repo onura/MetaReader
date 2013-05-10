@@ -65,9 +65,9 @@ public class FileUI extends JPanel implements ActionListener{
 						.addComponent(fileData, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnGetMetadata, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_filePanel.createSequentialGroup()
-							.addComponent(txtFilePath, GroupLayout.PREFERRED_SIZE, 400, GroupLayout.PREFERRED_SIZE)
+							.addComponent(txtFilePath, GroupLayout.PREFERRED_SIZE, 380, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
-							.addComponent(btnChooseFile, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE))
+							.addComponent(btnChooseFile, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE))
 						.addComponent(fileTypes, GroupLayout.PREFERRED_SIZE, 575, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(60, Short.MAX_VALUE))
 		);

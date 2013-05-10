@@ -17,6 +17,7 @@ public class FileTypeLookupTable {
 		definers[FileType.JPG.ordinal()] = new FileDefiner(new JPEGExtractor(), new JPEGIdentifier());
 		definers[FileType.DOCX.ordinal()] = new FileDefiner(new DOCXExtraxtor(), new DOCXIdentifier());
 		definers[FileType.XLSX.ordinal()] = new FileDefiner(new XLSXExtraxtor(), new XLSXIdentifier());
+		definers[FileType.ODT.ordinal()] = new FileDefiner(new ODTExtractor(), new ODTIdentifier());
 		
 	}
 	
