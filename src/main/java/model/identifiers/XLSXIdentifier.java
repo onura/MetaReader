@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import org.apache.tika.Tika;
 
-public class XSLXIdentifier implements IIdentifier {
+public class XLSXIdentifier implements IIdentifier {
 	private final String xslxType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
 	public boolean identify(File file) throws IOException {

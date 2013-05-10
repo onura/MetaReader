@@ -20,7 +20,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import model.metafile.Location;
 import model.metafile.MetaData;
 
-public class XSLXExtraxtor implements IExtractor {
+public class XLSXExtraxtor implements IExtractor {
 
 	public MetaData extract(File file) throws IOException {
 		MetaData metaData = new MetaData();
