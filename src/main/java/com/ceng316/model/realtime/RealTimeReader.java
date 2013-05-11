@@ -1,7 +1,7 @@
 package com.ceng316.model.realtime;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -27,10 +27,10 @@ public class RealTimeReader {
 	}
 	
 	//main process
-	public void process(ArrayList<String> fileLinks) {
+	public void process(HashSet<String> hashSet) {
 		BlockingQueue<String> fileQueue = new LinkedBlockingQueue<String>();		
 		
-		DownloaderWrapper downloader = new DownloaderWrapper(new Downloader(folder), fileLinks, fileQueue);			
+		DownloaderWrapper downloader = new DownloaderWrapper(new Downloader(folder), hashSet, fileQueue);			
 		MultiReaderWrapper multiReader = new MultiReaderWrapper(new MultiReader(folder), fileQueue, finishEvent);
 		
 		Thread downloaderThread = new Thread(downloader);
@@ -45,15 +45,15 @@ public class RealTimeReader {
 	class DownloaderWrapper implements Runnable {
 
 		private Downloader downloader;		
-		private ArrayList<String> fileLinks;
+		private HashSet<String> fileLinks;
 		private BlockingQueue<String> fileQueue;
 				
 		
 		public DownloaderWrapper(Downloader downloader,
-				ArrayList<String> fileLinks, BlockingQueue<String> fileQueue) {
+				HashSet<String> hashSet, BlockingQueue<String> fileQueue) {
 		
 			this.downloader = downloader;
-			this.fileLinks = fileLinks;
+			this.fileLinks = hashSet;
 			this.fileQueue = fileQueue;
 		}
 

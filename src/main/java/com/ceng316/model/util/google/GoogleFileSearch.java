@@ -9,12 +9,12 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javax.net.ssl.HttpsURLConnection;
 
 import com.ceng316.model.metafile.FileType;
@@ -34,7 +34,7 @@ public class GoogleFileSearch {
 	}
 	
 	// makes a file search in the google and returns file links. 
-	public ArrayList<String> search(String searchString, FileType fileType, int pageCount) {
+	public HashSet<String> search(String searchString, FileType fileType, int pageCount) {
 		
 		ArrayList<String> fileLinks = new ArrayList<String>();
 		try {			
@@ -61,7 +61,7 @@ public class GoogleFileSearch {
 			System.err.println(e.getMessage());
 		}
 		
-		return fileLinks;
+		return new HashSet<String>(fileLinks);
 	}
 	
 	// downloads a page

@@ -1,7 +1,7 @@
 package com.ceng316.model.util.downloader;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -33,7 +33,7 @@ public class Downloader {
 	/*
 	 * Downloads files in parallel and add their locations in a blocking queue 
 	 */
-	public void download(ArrayList<String> fileLinks, BlockingQueue<String> fileQueue) {	
+	public void download(HashSet<String> fileLinks, BlockingQueue<String> fileQueue) {	
 		
 		for(String fileLink:fileLinks) {			
 			executor.execute(new DownloaderWorker(downDir+getFileNameFromLink(fileLink), fileLink, fileQueue));
