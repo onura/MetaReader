@@ -1,10 +1,12 @@
 package com.ceng316.model.realtime;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import com.ceng316.model.MetaReader.RETCODES;
 import com.ceng316.model.multi.MultiReader;
 import com.ceng316.model.util.downloader.Downloader;
 
@@ -26,8 +28,17 @@ public class RealTimeReader {
 		this.finishEvent = finishEvent;
 	}
 	
+	private boolean isFolderExist() {
+		File f = new File(folder.toString());
+		return f.exists();
+	}
+	
 	//main process
-	public void process(HashSet<String> hashSet) {
+	public RETCODES process(HashSet<String> hashSet) {
+		
+		if(!isFolderExist())
+			return RETCODES.FILENOTFOUND;
+		
 		BlockingQueue<String> fileQueue = new LinkedBlockingQueue<String>();		
 		
 		DownloaderWrapper downloader = new DownloaderWrapper(new Downloader(folder), hashSet, fileQueue);			
@@ -39,6 +50,7 @@ public class RealTimeReader {
 		downloaderThread.start();
 		multiReaderThread.start();		
 		
+		return RETCODES.SUCCESS;
 	}
 	
 	//make downloader runnable

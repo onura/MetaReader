@@ -2,6 +2,7 @@ package com.ceng316.controller;
 
 import java.nio.file.Path;
 
+import com.ceng316.model.MetaReader.RETCODES;
 import com.ceng316.model.metafile.FileType;
 import com.ceng316.model.realtime.RealTimeReader;
 import com.ceng316.model.util.google.GoogleFileSearch;
@@ -20,7 +21,11 @@ public class RealTimeController extends MRController {
 			if(addFileType() != null){
 				RealTimeReader rtr = new RealTimeReader(tempDir, new RealTimePrint(this), new RealTimeFinish(this));	
 				GoogleFileSearch gfs = new GoogleFileSearch();
-				rtr.process(gfs.search(search, addFileType(), new Integer(rank)));
+				RETCODES retCode = rtr.process(gfs.search(search, addFileType(), new Integer(rank)));
+				if(retCode == RETCODES.FILENOTFOUND) {
+					realTimeUI.setMsgBox("Directory is not found");
+					//finish code
+				}
 			}else{
 				realTimeUI.setMsgBox("Check file type");
 			}
