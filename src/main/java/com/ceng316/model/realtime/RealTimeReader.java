@@ -79,7 +79,7 @@ public class RealTimeReader {
 		}
 
 		public void run() {
-			multiReader.analyseFiles(fileQueue, realTimeResultsController);
+			multiReader.analyseFiles(fileQueue, realTimeResultsController);			
 			finishEvent.finish();
 		}
 				

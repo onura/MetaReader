@@ -3,9 +3,9 @@ package com.ceng316.model.util.downloader;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.concurrent.BlockingQueue;
@@ -32,7 +32,7 @@ public class DownloaderWorker implements Runnable{
 		try {
 			//download the file
 			URL url = new URL(fileLink);
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			URLConnection conn = url.openConnection();
 			InputStream is = conn.getInputStream();				
 			ReadableByteChannel rbc = Channels.newChannel(is);
 			FileOutputStream fos = new FileOutputStream(downloadLocation);
@@ -44,8 +44,7 @@ public class DownloaderWorker implements Runnable{
 			//close connections
 			fos.close();
 			rbc.close();
-			is.close();
-			conn.disconnect();
+			is.close();			
 			
 		} catch(MalformedURLException e) {
 			System.err.println(e.getMessage());
