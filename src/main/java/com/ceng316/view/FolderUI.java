@@ -165,7 +165,7 @@ public class FolderUI extends JPanel implements ActionListener{
 		}
 		
 		if (e.getSource() == btnSaveMetadata){
-			if(multiReader != null){
+			if(multiReader != null && fileNames.getItemCount() > 0){
 				JFileChooser chooser = new JFileChooser();
 				chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 								
@@ -191,6 +191,7 @@ public class FolderUI extends JPanel implements ActionListener{
 	public void setMsgBox(String errorMsg){
 		fileData.clearText();
 		lblFilesInfo.setVisible(false);
+		
 		JOptionPane.showMessageDialog(folderPanel, errorMsg, null, JOptionPane.INFORMATION_MESSAGE);
 	}
 }

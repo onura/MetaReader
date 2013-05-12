@@ -47,18 +47,16 @@ public class MRController {
 	}
 	
 	public void saveMetadata(String filePath, int index){
-		String extension;
-
-		extension = metaFiles.get(index).getFileInfo().getFileName().replaceFirst("[.][^.]+$", "");
+		String name = metaFiles.get(index).getFileInfo().getFileName().replaceFirst("[.][^.]+$", "");
 		
-		XMLSaver.save(filePath + "/" + extension, metaFiles.get(index));
+		XMLSaver.save(filePath + "/" + name + ".xml", metaFiles.get(index));
 	}
 	
 	public void saveAllMetadata(String filePath){			
 		Date date = new Date() ;
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss") ;
 		XMLSaver.save(filePath + "/" + new File(filePath).getParentFile().getName() 
-							+ "-" + dateFormat.format(date), metaFiles);
+							+ "-" + dateFormat.format(date) + ".xml", metaFiles);
 	}
 	
 	public String control(Object object){

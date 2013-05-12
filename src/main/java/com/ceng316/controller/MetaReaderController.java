@@ -64,9 +64,9 @@ public class MetaReaderController extends MRController{
 	}
 	
 	public void saveFileMetadata(String filePath){
-		String extension = reader.getMetaFile().getFileInfo().getFileName().replaceFirst("[.][^.]+$", "");
+		String name = reader.getMetaFile().getFileInfo().getFileName().replaceFirst("[.][^.]+$", "");
 		
-		XMLSaver.save(filePath + "/" + extension, reader.getMetaFile());
+		XMLSaver.save(filePath + "/" + name + ".xml", reader.getMetaFile());
 	}
 
 }
