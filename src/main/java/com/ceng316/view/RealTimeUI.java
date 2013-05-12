@@ -89,7 +89,7 @@ public class RealTimeUI extends JPanel implements ActionListener {
 		
 		chckbxSaveAll = new JCheckBox("Save ALL");
 		
-		 ImageIcon imageIcon = new ImageIcon("/home/nanomad/workspace/MetaReader/icon/loader.gif");
+		 ImageIcon imageIcon = new ImageIcon(getClass().getResource("/resources/loader.gif"));
 		 lblLoading = new JLabel();
 		 lblLoading.setIcon(imageIcon);	
 		 lblLoading.setVisible(false);
