@@ -33,7 +33,7 @@ public class FileInfo {
 
 	public FileInfo(Path filePath, FileType type) {
 		this(null, filePath, type, 
-				new FileTypeLookupTable().getFileDefiner(type).getIdentifier());		
+				FileDefinerFactory.getInstance().getFileDefiner(type).getIdentifier());		
 	}
 	
 	public FileInfo(Path filePath) {
@@ -77,7 +77,7 @@ public class FileInfo {
 	
 	
 	public boolean guessType() throws IOException {				
-		FileTypeLookupTable fileTypeLookupTable = new FileTypeLookupTable();
+		FileDefinerFactory fileTypeLookupTable = new FileDefinerFactory();
 		for( FileType t : FileType.values()){			
 			setIdentifier(fileTypeLookupTable.getFileDefiner(t).getIdentifier());			
 			if (getIdentifier().identify(new File(getFilePath().toString()))){

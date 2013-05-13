@@ -12,13 +12,13 @@ import java.nio.file.Path;
 
 import com.ceng316.model.metafile.FileInfo;
 import com.ceng316.model.metafile.FileType;
-import com.ceng316.model.metafile.FileTypeLookupTable;
+import com.ceng316.model.metafile.FileDefinerFactory;
 import com.ceng316.model.metafile.MetaFile;
 
 
 public class MetaReader {
 	private MetaFile metaFile;
-	private FileTypeLookupTable fileTypeLookupTable;
+	private FileDefinerFactory fileTypeLookupTable;
 	
 	public static enum RETCODES {
 		SUCCESS,
@@ -31,7 +31,7 @@ public class MetaReader {
 	public MetaReader() {
 		super();		
 		this.metaFile = new MetaFile();				
-		this.fileTypeLookupTable = new FileTypeLookupTable();		
+		this.fileTypeLookupTable = FileDefinerFactory.getInstance();		
 	}
 
 	public MetaFile getMetaFile() {

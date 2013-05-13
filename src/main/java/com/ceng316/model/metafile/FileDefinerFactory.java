@@ -7,10 +7,12 @@ package com.ceng316.model.metafile;
 import com.ceng316.model.extractors.*;
 import com.ceng316.model.identifiers.*;
 
-public class FileTypeLookupTable {
+public class FileDefinerFactory {
 	private FileDefiner definers[];
 	
-	public FileTypeLookupTable() {		
+	private static FileDefinerFactory instance;
+	
+	protected FileDefinerFactory() {		
 		definers = new FileDefiner[FileType.values().length];
 		
 		definers[FileType.PDF.ordinal()] = new FileDefiner(new PDFExtractor(), new PDFIdentifier());		
@@ -19,6 +21,12 @@ public class FileTypeLookupTable {
 		definers[FileType.XLSX.ordinal()] = new FileDefiner(new XLSXExtraxtor(), new XLSXIdentifier());
 		definers[FileType.ODT.ordinal()] = new FileDefiner(new ODTExtractor(), new ODTIdentifier());
 		
+	}
+	
+	public static FileDefinerFactory getInstance() {
+		if(instance == null)
+			return new FileDefinerFactory();
+		return instance;
 	}
 	
 	public FileDefiner getFileDefiner(FileType type) {
