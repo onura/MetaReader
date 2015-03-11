@@ -13,4 +13,4 @@ We narrowed down to concept of metadata such that it defines information about d
     When and where  was it created or last modified?
 
 
-Users can use Meta Reader for four aim. First of all, it can be use for forensic investigations. Secondly, a user could verify the source of a document. It’s real time processing feature can be used for massive file processing of search engine results as well. Lastly, someone can use it as a library to easily create a metadata reader for any document format.
+Users can use Meta Reader for four aim. First of all, it can be used for forensic investigations. Secondly, a user could verify the source of a document. It’s real time processing feature can be used for massive file processing of search engine results as well. Lastly, someone can use it as a library to easily create a metadata reader for any document format.
